@@ -1,0 +1,6 @@
+Amy Chiu
+Programming Assignment 3
+Writeup
+
+I began working on the assignment by drawing out the architecture of this project. Basically the user will pass in a url such as www.cnn.com in HTML. Ajax will send this request to webrole, asking webrole to start crawling. Webrole will then pass the url to a CloudQueue commandQueue. In the mean time, workerrole will check 
+commandQueue every 500 miliseconds, checking whether there's any command. When workerrole receive this url command, it will start crawling robots.txt and the sitemap. For every url crawled, it will be checked whether it is visited before, disallowed, or in the domain; if all the requirements were met, it will be added to the CloudQueue urlQueue. When workerrole get a url from urlQueue, it will check whether this is a valid url, add the url's information to CloudTable table, update the dashboard stats via another CloudTable dash, and then crawl the sub-urls to add to urlQueue; if any error is encountered, the exception and error-url will be recorded. The webrole and workerrole will communicate with one another via commandQueue and the webrole will retrieve data from table and dash for the information workerrole found.

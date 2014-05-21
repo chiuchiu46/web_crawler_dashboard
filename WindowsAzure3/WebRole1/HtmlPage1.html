@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Search on the Web</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#display').autocomplete({
+                source: function (request, response) {
+                    var searchParam = '{ word: "' + request.term + '"}';
+                    $.ajax({
+                        url: "WebService1.asmx/SearchTitles",
+                        data: searchParam,
+                        contentType: "application/json",
+                        dataType: "json",
+                        type: "POST",
+                        success: function (data) {
+                            response(data.d);
+                        }
+                    })
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <img src="http://upload.wikimedia.org/wikipedia/commons/5/53/Wikipedia-logo-en-big.png" width="200">
+        Search
+        <input id ="display" type="text">
+    </div>
+</body>
+</html>
